@@ -13,14 +13,12 @@ class SimpleMediaService : MediaSessionService() {
 
     @Inject
     lateinit var player: ExoPlayer
-
+    @Inject
+    lateinit var mediaSession: MediaSession
     @Inject
     lateinit var notificationManager: SimpleMediaNotificationManager
-
-    private val mediaSession: MediaSession by lazy {
-        MediaSession.Builder(this, player)
-            .build()
-    }
+    @Inject
+    lateinit var simpleMediaServiceHandler: SimpleMediaServiceHandler
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         notificationManager.startNotificationService(

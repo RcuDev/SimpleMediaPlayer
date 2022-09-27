@@ -1,10 +1,13 @@
 package com.rcudev.player_service.di
 
 import android.content.Context
+import android.support.v4.media.session.MediaControllerCompat
+import android.support.v4.media.session.MediaSessionCompat
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
+import androidx.media3.session.MediaSession
 import com.rcudev.player_service.service.SimpleMediaNotificationManager
 import com.rcudev.player_service.service.SimpleMediaServiceHandler
 import dagger.Module
@@ -51,7 +54,17 @@ class SimpleMediaModule {
 
     @Provides
     @Singleton
-    fun provideServiceHandler(player: ExoPlayer) =
+    fun provideMediaSession(
+        @ApplicationContext context: Context,
+        player: ExoPlayer
+    ): MediaSession =
+        MediaSession.Builder(context, player).build()
+
+    @Provides
+    @Singleton
+    fun provideServiceHandler(
+        player: ExoPlayer
+    ): SimpleMediaServiceHandler =
         SimpleMediaServiceHandler(
             player = player
         )

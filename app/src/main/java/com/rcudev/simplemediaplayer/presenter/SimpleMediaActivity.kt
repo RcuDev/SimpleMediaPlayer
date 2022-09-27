@@ -1,23 +1,20 @@
-package com.rcudev.simplemediaplayer
+package com.rcudev.simplemediaplayer.presenter
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import com.rcudev.player_service.service.SimpleMediaService
 import com.rcudev.player_service.service.SimpleMediaServiceHandler
+import com.rcudev.player_service.service.SimpleMediaState
 import com.rcudev.simplemediaplayer.ui.theme.SimpleMediaPlayerTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -36,7 +33,9 @@ class SimpleMediaActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    val simpleMediaState = simpleMediaServiceHandler.simpleMediaState.collectAsState()
                     SimpleMediaPlayerScreen(
+                        simpleMediaState = simpleMediaState.value,
                         startService = { startService() },
                         initPlayer = { simpleMediaServiceHandler.initPlayer("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3") },
                         playPause = simpleMediaServiceHandler::playPause,
@@ -61,13 +60,17 @@ class SimpleMediaActivity : ComponentActivity() {
 
 @Composable
 private fun SimpleMediaPlayerScreen(
+    simpleMediaState: SimpleMediaState,
     startService: () -> Unit,
     initPlayer: () -> Unit,
-    playPause: () -> Int,
+    playPause: () -> Unit,
     forward: () -> Unit,
     backward: () -> Unit
 ) {
-    var playPauseIconState by mutableStateOf(android.R.drawable.ic_media_play)
+    val playPauseIconState = when (simpleMediaState) {
+        SimpleMediaState.StatePlay -> android.R.drawable.ic_media_pause
+        else -> android.R.drawable.ic_media_play
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -80,24 +83,33 @@ private fun SimpleMediaPlayerScreen(
         Button(onClick = initPlayer) {
             Text(text = "Init Player")
         }
-        Row {
-            IconButton(onClick = backward) {
-                Icon(
-                    painter = painterResource(id = android.R.drawable.ic_media_rew),
-                    contentDescription = ""
-                )
-            }
-            IconButton(onClick = { playPauseIconState = playPause() }) {
-                Icon(
-                    painter = painterResource(id = playPauseIconState),
-                    contentDescription = ""
-                )
-            }
-            IconButton(onClick = forward) {
-                Icon(
-                    painter = painterResource(id = android.R.drawable.ic_media_ff),
-                    contentDescription = ""
-                )
+
+        Spacer(modifier = Modifier.padding(bottom = 48.dp))
+
+        if (simpleMediaState == SimpleMediaState.StateLoading) {
+            CircularProgressIndicator()
+        } else {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                IconButton(onClick = backward) {
+                    Icon(
+                        painter = painterResource(id = android.R.drawable.ic_media_rew),
+                        contentDescription = ""
+                    )
+                }
+                IconButton(onClick = playPause) {
+                    Icon(
+                        painter = painterResource(id = playPauseIconState),
+                        contentDescription = ""
+                    )
+                }
+                IconButton(onClick = forward) {
+                    Icon(
+                        painter = painterResource(id = android.R.drawable.ic_media_ff),
+                        contentDescription = ""
+                    )
+                }
             }
         }
     }

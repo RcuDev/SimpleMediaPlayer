@@ -1,13 +1,23 @@
 package com.rcudev.player_service.service
 
 import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaController
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class SimpleMediaServiceHandler @Inject constructor(
     private val player: ExoPlayer
-) : MediaController.Listener {
+): Player.Listener {
+
+    private val _simpleMediaState = MutableStateFlow<SimpleMediaState>(SimpleMediaState.StateLoading)
+    val simpleMediaState = _simpleMediaState.asStateFlow()
+
+    init {
+        player.addListener(this)
+    }
 
     fun initPlayer(url: String) {
         player.setMediaItem(MediaItem.fromUri(url))
@@ -32,4 +42,19 @@ class SimpleMediaServiceHandler @Inject constructor(
         player.seekForward()
     }
 
+    override fun onIsLoadingChanged(isLoading: Boolean) {
+        _simpleMediaState.value = if (isLoading) SimpleMediaState.StateLoading else SimpleMediaState.StateReady
+        super.onIsLoadingChanged(isLoading)
+    }
+    override fun onIsPlayingChanged(isPlaying: Boolean) {
+        _simpleMediaState.value = if (isPlaying) SimpleMediaState.StatePlay else SimpleMediaState.StatePause
+        super.onIsPlayingChanged(isPlaying)
+    }
+}
+
+sealed interface SimpleMediaState {
+    object StateLoading : SimpleMediaState
+    object StateReady : SimpleMediaState
+    object StatePlay : SimpleMediaState
+    object StatePause : SimpleMediaState
 }
