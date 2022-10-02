@@ -17,7 +17,8 @@ fun SimpleMediaPlayerUI(
 ) {
     val (progress, progressString) = progressProvider()
     Column(
-        modifier = Modifier.padding(horizontal = 16.dp),
+        modifier = Modifier
+            .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         SimpleMediaPlayerBar(

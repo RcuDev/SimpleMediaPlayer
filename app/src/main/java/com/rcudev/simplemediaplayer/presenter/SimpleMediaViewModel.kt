@@ -1,5 +1,3 @@
-@file:OptIn(SavedStateHandleSaveableApi::class, SavedStateHandleSaveableApi::class)
-
 package com.rcudev.simplemediaplayer.presenter
 
 import androidx.compose.runtime.mutableStateOf
@@ -18,6 +16,7 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+@OptIn(SavedStateHandleSaveableApi::class)
 @HiltViewModel
 class SimpleMediaViewModel @Inject constructor(
     private val simpleMediaServiceHandler: SimpleMediaServiceHandler,
@@ -29,13 +28,13 @@ class SimpleMediaViewModel @Inject constructor(
     var progressString by savedStateHandle.saveable { mutableStateOf("00:00") }
     var isPlaying by savedStateHandle.saveable { mutableStateOf(false) }
 
-    private val simpleMediaState = simpleMediaServiceHandler.simpleMediaState
     private val _uiState = MutableStateFlow<UIState>(UIState.Initial)
     val uiState = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            simpleMediaState.collect { mediaState ->
+            simpleMediaServiceHandler.addMediaItemUrl("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3")
+            simpleMediaServiceHandler.simpleMediaState.collect { mediaState ->
                 when (mediaState) {
                     is SimpleMediaState.Buffering -> calculateProgressValues(mediaState.progress)
                     SimpleMediaState.Initial -> _uiState.value = UIState.Initial
@@ -54,10 +53,6 @@ class SimpleMediaViewModel @Inject constructor(
         viewModelScope.launch {
             simpleMediaServiceHandler.onPlayerEvent(PlayerEvent.Stop)
         }
-    }
-
-    fun initPlayer() {
-        simpleMediaServiceHandler.initPlayer("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3")
     }
 
     fun onUIEvent(uiEvent: UIEvent) = viewModelScope.launch {

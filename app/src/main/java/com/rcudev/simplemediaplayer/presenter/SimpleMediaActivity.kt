@@ -17,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SimpleMediaActivity : ComponentActivity() {
 
     private val viewModel: SimpleMediaViewModel by viewModels()
+    private var isServiceRunning = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,10 +39,14 @@ class SimpleMediaActivity : ComponentActivity() {
     override fun onDestroy() {
         super.onDestroy()
         stopService(Intent(this, SimpleMediaService::class.java))
+        isServiceRunning = false
     }
 
     private fun startService() {
-        val intent = Intent(this, SimpleMediaService::class.java)
-        startForegroundService(intent)
+        if (!isServiceRunning) {
+            val intent = Intent(this, SimpleMediaService::class.java)
+            startForegroundService(intent)
+            isServiceRunning = true
+        }
     }
 }

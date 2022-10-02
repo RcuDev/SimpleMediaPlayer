@@ -22,8 +22,16 @@ class SimpleMediaServiceHandler @Inject constructor(
         job = Job()
     }
 
-    fun initPlayer(url: String) {
+    fun addMediaItemUrl(url: String) {
         player.setMediaItem(MediaItem.fromUri(url))
+        player.prepare()
+    }
+
+    fun addMediaItemUrlList(urlList: List<String>) {
+        val mediaItemList = urlList.map { url ->
+            MediaItem.fromUri(url)
+        }
+        player.setMediaItems(mediaItemList)
         player.prepare()
     }
 
@@ -46,9 +54,6 @@ class SimpleMediaServiceHandler @Inject constructor(
         }
     }
 
-    /**
-     * Player listeners
-     */
     override fun onPlaybackStateChanged(playbackState: Int) {
         when (playbackState) {
             ExoPlayer.STATE_BUFFERING -> _simpleMediaState.value =
