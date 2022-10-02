@@ -1,4 +1,4 @@
-@file:OptIn(SavedStateHandleSaveableApi::class)
+@file:OptIn(SavedStateHandleSaveableApi::class, SavedStateHandleSaveableApi::class)
 
 package com.rcudev.simplemediaplayer.presenter
 
@@ -12,7 +12,8 @@ import com.rcudev.player_service.service.PlayerEvent
 import com.rcudev.player_service.service.SimpleMediaServiceHandler
 import com.rcudev.player_service.service.SimpleMediaState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -34,16 +35,12 @@ class SimpleMediaViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            simpleMediaState.collectLatest { mediaState ->
+            simpleMediaState.collect { mediaState ->
                 when (mediaState) {
+                    is SimpleMediaState.Buffering -> calculateProgressValues(mediaState.progress)
                     SimpleMediaState.Initial -> _uiState.value = UIState.Initial
-                    SimpleMediaState.Pause -> {
-                        isPlaying = false
-                    }
-                    is SimpleMediaState.Playing -> {
-                        isPlaying = true
-                        calculateProgressValues(mediaState.progress)
-                    }
+                    is SimpleMediaState.Playing -> isPlaying = mediaState.isPlaying
+                    is SimpleMediaState.Progress -> calculateProgressValues(mediaState.progress)
                     is SimpleMediaState.Ready -> {
                         duration = mediaState.duration
                         _uiState.value = UIState.Ready
@@ -68,11 +65,14 @@ class SimpleMediaViewModel @Inject constructor(
             UIEvent.Backward -> simpleMediaServiceHandler.onPlayerEvent(PlayerEvent.Backward)
             UIEvent.Forward -> simpleMediaServiceHandler.onPlayerEvent(PlayerEvent.Forward)
             UIEvent.PlayPause -> simpleMediaServiceHandler.onPlayerEvent(PlayerEvent.PlayPause)
-            is UIEvent.UpdateProgress -> simpleMediaServiceHandler.onPlayerEvent(
-                PlayerEvent.UpdateProgress(
-                    uiEvent.newProgress
+            is UIEvent.UpdateProgress -> {
+                progress = uiEvent.newProgress
+                simpleMediaServiceHandler.onPlayerEvent(
+                    PlayerEvent.UpdateProgress(
+                        uiEvent.newProgress
+                    )
                 )
-            )
+            }
         }
     }
 
@@ -84,7 +84,7 @@ class SimpleMediaViewModel @Inject constructor(
     }
 
     private fun calculateProgressValues(currentProgress: Long) {
-        progress = ((currentProgress.takeIf { it > 0 } ?: 1L).toFloat() / duration)
+        progress = if (currentProgress > 0) (currentProgress.toFloat() / duration) else 0f
         progressString = formatDuration(currentProgress)
     }
 
