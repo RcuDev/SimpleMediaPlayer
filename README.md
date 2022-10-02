@@ -17,14 +17,30 @@ I have not focused on UI, although I will update it to show the potential that a
 - Notifications both in the status bar and on the lock screen with media controls.
 - Updating playback status both in notifications and in-app view.
 
-These features are specific to the example, but I'm really going to put the emphasis on the service, the control of it, and the notifications, classes that I will detail below, which are found in the service module.
+These features are specific to the example, but I'm really going to put the emphasis on the service, the control of it, and the notifications, classes that I will detail below, which are found in the service module. 
 
-## SimpleMediaService
+## SimpleMediaService (only 42 lines)
 
 **SimpleMediaService** inherits from **MediaSessionService** and feeds on hilt-injected classes (see **SimpleMediaModule** for more details). The injected classes are as follows:
 - **ExoPlayer**: playback client that will be shared in order to control common states.
 - **MediaSession**: this is the most important class because it is what creates the magic to be able to share the replay session with whoever needs it, including service and notifications.
 - **SimpleMediaNotificationManager**: is a class of its own that I will detail in the next point.
 
-## SimpleMediaNotificationManager
+## SimpleMediaNotificationManager (only 71 lines)
+
+**SimpleMediaNotificationManager** has three main functions:
+- Create a notification channel.
+- Start the background service by assigning an ID and a notification.
+- Create the notification by assigning both the MediaSession **Token** and the **player** to it. Both are essential to be able to control the audio with notifications and to be able to see its progress.
+
+In this class is where we can create our custom notification with the controls, icons or images that we want.
+
+## SimpleMediaServiceHandler (only 105 lines)
+
+**SimpleMediaServiceHandler** is a bridge to be able to communicate the application with the service, because the only common dependency that is necessary to have is the one corresponding to the MediaSession. 
+
+Two sealed classes are used that encapsulate the actions and events necessary to coordinate the state of the playback:
+- **PlayerEvent**: contains the actions performed by the user and through the **onPlayerEvent** method the state of the player is controlled.
+- **SimpleMediaState**: contains the states that will be emitted through a **StateFlow**. In the example the VM collects any emitted changes and thus updates the custom controls.
+
 
