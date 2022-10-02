@@ -1,3 +1,30 @@
 # SimpleMediaPlayer
 
 With the arrival of media3 and for professional reasons, I have had to do a lot of research on the use of media3 for background audio playback using one of the different available services such as **MediaSessionService**, **MediaLibraryService** and **MediaBrowserService**. Also, I needed to display notifications on both the status bar and the lock screen.
+
+During the time that I was documented, I realized that there were few clear examples of the use of these services. Including those available in Android's own repositories (https://github.com/android/uamp, https://github.com/androidx/media), they are all difficult to follow and understand if what you are looking for it is simplicity and only having the necessary features to play music in the background with notifications.
+
+**Goal**
+
+The objective of creating this repository is to present a simpler approach, creating only the necessary classes to comply with the features that I will describe in the next point, but without neglecting a logical, meaningful and reactive structure.
+
+I have not focused on UI, although I will update it to show the potential that a clean, simple service with features that could be assimilated to those offered by Spotify (with a bit of evolution) can have.
+
+**Features**
+- Modularized service to abstract dependencies.
+- Play music using the internal ExoPlayer client in media3.
+- MediaSessionService in the background that will allow us to have a shared playback service so that it can be played anywhere in the application.
+- Notifications both in the status bar and on the lock screen with media controls.
+- Updating playback status both in notifications and in-app view.
+
+These features are specific to the example, but I'm really going to put the emphasis on the service, the control of it, and the notifications, classes that I will detail below, which are found in the service module.
+
+## SimpleMediaService
+
+**SimpleMediaService** inherits from **MediaSessionService** and feeds on hilt-injected classes (see **SimpleMediaModule** for more details). The injected classes are as follows:
+- **ExoPlayer**: playback client that will be shared in order to control common states.
+- **MediaSession**: this is the most important class because it is what creates the magic to be able to share the replay session with whoever needs it, including service and notifications.
+- **SimpleMediaNotificationManager**: is a class of its own that I will detail in the next point.
+
+## SimpleMediaNotificationManager
+
