@@ -68,5 +68,4 @@ class SimpleMediaNotificationManager @Inject constructor(
             notificationManager.createNotificationChannel(channel)
         }
     }
-
 }
