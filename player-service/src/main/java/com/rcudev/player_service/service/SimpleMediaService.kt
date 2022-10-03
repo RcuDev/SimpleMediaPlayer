@@ -17,8 +17,6 @@ class SimpleMediaService : MediaSessionService() {
     lateinit var mediaSession: MediaSession
     @Inject
     lateinit var notificationManager: SimpleMediaNotificationManager
-    @Inject
-    lateinit var simpleMediaServiceHandler: SimpleMediaServiceHandler
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         notificationManager.startNotificationService(
