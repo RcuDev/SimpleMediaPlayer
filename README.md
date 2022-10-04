@@ -23,14 +23,14 @@ These features are specific to the example, but I'm really going to put the emph
 
 ## player-service Module
 
-### SimpleMediaService (only 42 lines)
+### SimpleMediaService
 
 **SimpleMediaService** inherits from **MediaSessionService** and feeds on hilt-injected classes (see **SimpleMediaModule** for more details). The injected classes are as follows:
 - **ExoPlayer**: playback client that will be shared in order to control common states.
 - **MediaSession**: this is the most important class because it is what creates the magic to be able to share the replay session with whoever needs it, including service and notifications.
 - **SimpleMediaNotificationManager**: is a class of its own that I will detail in the next point.
 
-### SimpleMediaNotificationManager (only 71 lines)
+### SimpleMediaNotificationManager
 
 **SimpleMediaNotificationManager** has three main functions:
 - Create a notification channel.
@@ -39,7 +39,11 @@ These features are specific to the example, but I'm really going to put the emph
 
 In this class is where we can create our custom notification with the controls, icons or images that we want.
 
-### SimpleMediaServiceHandler (only 105 lines)
+### SimpleMediaNotificationAdapter
+
+**SimpleMediaNotificationAdapter** is used by SimpleMediaNotificationManager added to notification builder to get automaticatly metadata from the player and show album title, song title and image. All this data is added when MediaItem is created.
+
+### SimpleMediaServiceHandler
 
 **SimpleMediaServiceHandler** is a bridge to be able to communicate the application with the service, because the only common dependency that is necessary to have is the one corresponding to the MediaSession. 
 
@@ -55,4 +59,3 @@ A simple and clear playback service with notifications, with a reactive architec
 
 ## Next Updates
 - Improve UI and add a secondary screen with a player sharing the same MediaSession.
-- Add metadata to the MediaItem to display images in notifications.
