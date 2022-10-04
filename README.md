@@ -52,3 +52,7 @@ Besides, it is in charge of arranging the necessary methods to add the MediaItem
 ## Conclusions
 
 A simple and clear playback service with notifications, with a reactive architecture. I will continue checking improvements, this is still an imperfect approach (nothing is perfect), improvable but that provides what is necessary without complications.
+
+## Next Updates
+- Improve UI and add a secondary screen with a player sharing the same MediaSession.
+- Add metadata to the MediaItem to display images in notifications.
