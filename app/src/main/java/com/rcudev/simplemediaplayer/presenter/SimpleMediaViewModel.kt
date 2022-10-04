@@ -1,5 +1,6 @@
 package com.rcudev.simplemediaplayer.presenter
 
+import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import com.rcudev.player_service.service.PlayerEvent
 import com.rcudev.player_service.service.SimpleMediaServiceHandler
 import com.rcudev.player_service.service.SimpleMediaState
@@ -34,7 +36,7 @@ class SimpleMediaViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            simpleMediaServiceHandler.addMediaItemUrl(MediaItem.fromUri("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"))
+            loadData()
 
             simpleMediaServiceHandler.simpleMediaState.collect { mediaState ->
                 when (mediaState) {
@@ -83,6 +85,37 @@ class SimpleMediaViewModel @Inject constructor(
     private fun calculateProgressValues(currentProgress: Long) {
         progress = if (currentProgress > 0) (currentProgress.toFloat() / duration) else 0f
         progressString = formatDuration(currentProgress)
+    }
+
+    private fun loadData() {
+        val mediaItem = MediaItem.Builder()
+            .setUri("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3")
+            .setMediaMetadata(
+                MediaMetadata.Builder()
+                    .setFolderType(MediaMetadata.FOLDER_TYPE_ALBUMS)
+                    .setArtworkUri(Uri.parse("https://i.pinimg.com/736x/4b/02/1f/4b021f002b90ab163ef41aaaaa17c7a4.jpg"))
+                    .setAlbumTitle("SoundHelix")
+                    .setDisplayTitle("Song 1")
+                    .build()
+            ).build()
+
+        //val mediaItemList = mutableListOf<MediaItem>()
+        //(1..17).forEach {
+        //    mediaItemList.add(
+        //        MediaItem.Builder()
+        //            .setUri("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-$it.mp3")
+        //            .setMediaMetadata(MediaMetadata.Builder()
+        //                .setFolderType(MediaMetadata.FOLDER_TYPE_ALBUMS)
+        //                .setArtworkUri(Uri.parse("https://cdns-images.dzcdn.net/images/cover/1fddc1ab0535ee34189dc4c9f5f87bf9/264x264.jpg"))
+        //                .setAlbumTitle("SoundHelix")
+        //                .setDisplayTitle("Song $it")
+        //                .build()
+        //            ).build()
+        //    )
+        //}
+
+        simpleMediaServiceHandler.addMediaItem(mediaItem)
+        //simpleMediaServiceHandler.addMediaItemList(mediaItemList)
     }
 
 }

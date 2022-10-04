@@ -22,12 +22,12 @@ class SimpleMediaServiceHandler @Inject constructor(
         job = Job()
     }
 
-    fun addMediaItemUrl(mediaItem: MediaItem) {
+    fun addMediaItem(mediaItem: MediaItem) {
         player.setMediaItem(mediaItem)
         player.prepare()
     }
 
-    fun addMediaItemUrlList(mediaItemList: List<MediaItem>) {
+    fun addMediaItemList(mediaItemList: List<MediaItem>) {
         player.setMediaItems(mediaItemList)
         player.prepare()
     }

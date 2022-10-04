@@ -5,6 +5,7 @@ import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
+import com.rcudev.player_service.service.notification.SimpleMediaNotificationManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

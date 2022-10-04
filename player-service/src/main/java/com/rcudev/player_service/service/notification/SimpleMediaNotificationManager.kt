@@ -1,4 +1,4 @@
-package com.rcudev.player_service.service
+package com.rcudev.player_service.service.notification
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -13,6 +13,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import androidx.media3.ui.PlayerNotificationManager
+import com.rcudev.player_service.R
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -32,13 +33,23 @@ class SimpleMediaNotificationManager @Inject constructor(
         createNotificationChannel()
     }
 
-    fun startNotificationService(mediaSessionService: MediaSessionService, mediaSession: MediaSession) {
+    fun startNotificationService(
+        mediaSessionService: MediaSessionService,
+        mediaSession: MediaSession
+    ) {
         buildNotification(mediaSession)
         startForegroundNotification(mediaSessionService)
     }
 
     private fun buildNotification(mediaSession: MediaSession) {
         PlayerNotificationManager.Builder(context, NOTIFICATION_ID, NOTIFICATION_CHANNEL_ID)
+            .setMediaDescriptionAdapter(
+                SimpleMediaNotificationAdapter(
+                    context = context,
+                    pendingIntent = mediaSession.sessionActivity
+                )
+            )
+            .setSmallIconResourceId(R.drawable.ic_microphone)
             .build()
             .also {
                 it.setMediaSessionToken(mediaSession.sessionCompatToken as MediaSessionCompat.Token)
