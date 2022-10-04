@@ -8,7 +8,7 @@ During the time that I was documented, I realized that there were few clear exam
 
 **Goal**
 
-The objective of creating this repository is to present a simpler approach, creating only the necessary classes to comply with the features that I will describe in the next point, but without neglecting a logical, meaningful and reactive structure.
+The purpose of creating this repository is to present a simpler approach, creating only the necessary classes to comply with the features that I will describe in the next point, but without neglecting a logical, meaningful and reactive structure.
 
 I have not focused on UI, although I will update it to show the potential that a clean, simple service with features that could be assimilated to those offered by Spotify (with a bit of evolution) can have.
 
