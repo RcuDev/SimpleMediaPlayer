@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
+import androidx.media3.common.MediaItem
 import com.rcudev.player_service.service.PlayerEvent
 import com.rcudev.player_service.service.SimpleMediaServiceHandler
 import com.rcudev.player_service.service.SimpleMediaState
@@ -33,7 +34,8 @@ class SimpleMediaViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            simpleMediaServiceHandler.addMediaItemUrl("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3")
+            simpleMediaServiceHandler.addMediaItemUrl(MediaItem.fromUri("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"))
+
             simpleMediaServiceHandler.simpleMediaState.collect { mediaState ->
                 when (mediaState) {
                     is SimpleMediaState.Buffering -> calculateProgressValues(mediaState.progress)

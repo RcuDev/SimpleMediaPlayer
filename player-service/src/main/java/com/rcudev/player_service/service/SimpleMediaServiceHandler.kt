@@ -22,15 +22,12 @@ class SimpleMediaServiceHandler @Inject constructor(
         job = Job()
     }
 
-    fun addMediaItemUrl(url: String) {
-        player.setMediaItem(MediaItem.fromUri(url))
+    fun addMediaItemUrl(mediaItem: MediaItem) {
+        player.setMediaItem(mediaItem)
         player.prepare()
     }
 
-    fun addMediaItemUrlList(urlList: List<String>) {
-        val mediaItemList = urlList.map { url ->
-            MediaItem.fromUri(url)
-        }
+    fun addMediaItemUrlList(mediaItemList: List<MediaItem>) {
         player.setMediaItems(mediaItemList)
         player.prepare()
     }
