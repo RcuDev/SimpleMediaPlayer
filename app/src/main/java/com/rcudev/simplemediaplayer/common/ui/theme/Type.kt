@@ -1,4 +1,4 @@
-package com.rcudev.simplemediaplayer.ui.theme
+package com.rcudev.simplemediaplayer.common.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

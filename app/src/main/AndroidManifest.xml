@@ -17,7 +17,7 @@
         android:theme="@style/Theme.SimpleMediaPlayer"
         tools:targetApi="31">
         <activity
-            android:name=".presenter.SimpleMediaActivity"
+            android:name=".common.ui.SimpleMediaActivity"
             android:exported="true"
             android:theme="@style/Theme.SimpleMediaPlayer">
             <intent-filter>

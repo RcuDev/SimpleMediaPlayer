@@ -1,4 +1,4 @@
-package com.rcudev.simplemediaplayer.presenter.components
+package com.rcudev.simplemediaplayer.common.ui.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Slider
@@ -8,7 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.rcudev.simplemediaplayer.presenter.UIEvent
+import com.rcudev.simplemediaplayer.common.ui.UIEvent
 
 @Composable
 internal fun SimpleMediaPlayerBar(

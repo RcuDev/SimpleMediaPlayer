@@ -1,4 +1,4 @@
-package com.rcudev.simplemediaplayer.presenter
+package com.rcudev.simplemediaplayer.common.ui
 
 import android.net.Uri
 import androidx.compose.runtime.mutableStateOf

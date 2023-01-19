@@ -1,5 +1,6 @@
 package com.rcudev.player_service.service
 
+import android.annotation.SuppressLint
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
@@ -51,6 +52,7 @@ class SimpleMediaServiceHandler @Inject constructor(
         }
     }
 
+    @SuppressLint("SwitchIntDef")
     override fun onPlaybackStateChanged(playbackState: Int) {
         when (playbackState) {
             ExoPlayer.STATE_BUFFERING -> _simpleMediaState.value =

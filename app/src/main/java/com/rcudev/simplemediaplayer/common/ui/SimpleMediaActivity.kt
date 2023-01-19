@@ -1,16 +1,16 @@
-package com.rcudev.simplemediaplayer.presenter
+package com.rcudev.simplemediaplayer.common.ui
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.rcudev.player_service.service.SimpleMediaService
-import com.rcudev.simplemediaplayer.ui.theme.SimpleMediaPlayerTheme
+import com.rcudev.simplemediaplayer.main.SimpleMediaScreen
+import com.rcudev.simplemediaplayer.secondary.SecondaryScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,16 +21,20 @@ class SimpleMediaActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
-            SimpleMediaPlayerTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
+            val navController = rememberNavController()
+
+            NavHost(navController = navController, startDestination = Destination.Main.route) {
+                composable(Destination.Main.route) {
                     SimpleMediaScreen(
                         vm = viewModel,
-                        onStartService = { startService() }
+                        navController = navController,
+                        startService = ::startService
                     )
+                }
+                composable(Destination.Secondary.route) {
+                    SecondaryScreen(vm = viewModel)
                 }
             }
         }

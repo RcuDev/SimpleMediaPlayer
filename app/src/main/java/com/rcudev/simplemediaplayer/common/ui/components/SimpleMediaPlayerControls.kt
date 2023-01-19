@@ -1,4 +1,4 @@
-package com.rcudev.simplemediaplayer.presenter.components
+package com.rcudev.simplemediaplayer.common.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.rcudev.simplemediaplayer.presenter.UIEvent
+import com.rcudev.simplemediaplayer.common.ui.UIEvent
 
 @Composable
 internal fun SimpleMediaPlayerControls(
