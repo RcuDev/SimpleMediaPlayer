@@ -18,6 +18,7 @@ I have not focused on UI, although I will update it to show the potential that a
 - MediaSessionService in the background that will allow us to have a shared playback service so that it can be played anywhere in the application.
 - Notifications both in the status bar and on the lock screen with media controls.
 - Updating playback status both in notifications and in-app view.
+- Shared viewmodel that allows to navigate to other screen with a second media player and continue play back.
 
 These features are specific to the example, but I'm really going to put the emphasis on the service, the control of it, and the notifications, classes that I will detail below, which are found in the service module. 
 
@@ -56,6 +57,3 @@ Besides, it is in charge of arranging the necessary methods to add the MediaItem
 ## Conclusions
 
 A simple and clear playback service with notifications, with a reactive architecture. I will continue checking improvements, this is still an imperfect approach (nothing is perfect), improvable but that provides what is necessary without complications.
-
-## Next Updates
-- Improve UI and add a secondary screen with a player sharing the same MediaSession.
