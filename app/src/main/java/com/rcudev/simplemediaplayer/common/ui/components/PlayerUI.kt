@@ -32,13 +32,13 @@ fun SimpleMediaPlayerUI(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            SimpleMediaPlayerBar(
+            PlayerBar(
                 progress = progress,
                 durationString = durationString,
                 progressString = progressString,
                 onUiEvent = onUiEvent
             )
-            SimpleMediaPlayerControls(
+            PlayerControls(
                 playResourceProvider = playResourceProvider,
                 onUiEvent = onUiEvent
             )

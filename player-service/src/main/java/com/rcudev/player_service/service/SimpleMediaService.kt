@@ -2,6 +2,7 @@ package com.rcudev.player_service.service
 
 import android.content.Intent
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
@@ -14,11 +15,14 @@ class SimpleMediaService : MediaSessionService() {
 
     @Inject
     lateinit var player: ExoPlayer
+
     @Inject
     lateinit var mediaSession: MediaSession
+
     @Inject
     lateinit var notificationManager: SimpleMediaNotificationManager
 
+    @UnstableApi
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         notificationManager.startNotificationService(
             mediaSessionService = this,

@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.rcudev.simplemediaplayer.common.ui.UIEvent
 
 @Composable
-internal fun SimpleMediaPlayerControls(
+internal fun PlayerControls(
     playResourceProvider: () -> Int,
     onUiEvent: (UIEvent) -> Unit
 ) {

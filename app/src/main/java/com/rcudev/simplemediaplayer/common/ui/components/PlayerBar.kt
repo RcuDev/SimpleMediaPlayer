@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.rcudev.simplemediaplayer.common.ui.UIEvent
 
 @Composable
-internal fun SimpleMediaPlayerBar(
+internal fun PlayerBar(
     progress: Float,
     durationString: String,
     progressString: String,
