@@ -4,7 +4,6 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.support.v4.media.session.MediaSessionCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.media3.common.util.UnstableApi
@@ -53,7 +52,7 @@ class SimpleMediaNotificationManager @Inject constructor(
             .setSmallIconResourceId(R.drawable.ic_microphone)
             .build()
             .also {
-                it.setMediaSessionToken(mediaSession.sessionCompatToken as MediaSessionCompat.Token)
+                it.setMediaSessionToken(mediaSession.sessionCompatToken)
                 it.setUseFastForwardActionInCompactView(true)
                 it.setUseRewindActionInCompactView(true)
                 it.setUseNextActionInCompactView(false)

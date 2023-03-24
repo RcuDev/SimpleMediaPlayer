@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.rcudev.player_service.service.SimpleMediaService
+import com.rcudev.simplemediaplayer.common.ui.theme.SimpleMediaPlayerTheme
 import com.rcudev.simplemediaplayer.main.SimpleMediaScreen
 import com.rcudev.simplemediaplayer.secondary.SecondaryScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,18 +24,20 @@ class SimpleMediaActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val navController = rememberNavController()
+            SimpleMediaPlayerTheme {
+                val navController = rememberNavController()
 
-            NavHost(navController = navController, startDestination = Destination.Main.route) {
-                composable(Destination.Main.route) {
-                    SimpleMediaScreen(
-                        vm = viewModel,
-                        navController = navController,
-                        startService = ::startService
-                    )
-                }
-                composable(Destination.Secondary.route) {
-                    SecondaryScreen(vm = viewModel)
+                NavHost(navController = navController, startDestination = Destination.Main.route) {
+                    composable(Destination.Main.route) {
+                        SimpleMediaScreen(
+                            vm = viewModel,
+                            navController = navController,
+                            startService = ::startService
+                        )
+                    }
+                    composable(Destination.Secondary.route) {
+                        SecondaryScreen(vm = viewModel)
+                    }
                 }
             }
         }
