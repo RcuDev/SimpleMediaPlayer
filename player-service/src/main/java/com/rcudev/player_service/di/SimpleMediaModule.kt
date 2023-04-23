@@ -11,17 +11,17 @@ import com.rcudev.player_service.service.SimpleMediaServiceHandler
 import com.rcudev.player_service.service.notification.SimpleMediaNotificationManager
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class SimpleMediaModule {
 
     @Provides
-    @Singleton
+    @Reusable
     fun provideAudioAttributes(): AudioAttributes =
         AudioAttributes.Builder()
             .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
@@ -29,7 +29,7 @@ class SimpleMediaModule {
             .build()
 
     @Provides
-    @Singleton
+    @Reusable
     @UnstableApi
     fun providePlayer(
         @ApplicationContext context: Context,
@@ -42,7 +42,7 @@ class SimpleMediaModule {
             .build()
 
     @Provides
-    @Singleton
+    @Reusable
     fun provideNotificationManager(
         @ApplicationContext context: Context,
         player: ExoPlayer
@@ -53,7 +53,7 @@ class SimpleMediaModule {
         )
 
     @Provides
-    @Singleton
+    @Reusable
     fun provideMediaSession(
         @ApplicationContext context: Context,
         player: ExoPlayer
@@ -61,7 +61,7 @@ class SimpleMediaModule {
         MediaSession.Builder(context, player).build()
 
     @Provides
-    @Singleton
+    @Reusable
     fun provideServiceHandler(
         player: ExoPlayer
     ): SimpleMediaServiceHandler =
