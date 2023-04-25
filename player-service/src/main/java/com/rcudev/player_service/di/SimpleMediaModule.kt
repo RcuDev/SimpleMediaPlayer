@@ -15,13 +15,14 @@ import dagger.Reusable
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class SimpleMediaModule {
 
     @Provides
-    @Reusable
+    @Singleton
     fun provideAudioAttributes(): AudioAttributes =
         AudioAttributes.Builder()
             .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
@@ -29,7 +30,7 @@ class SimpleMediaModule {
             .build()
 
     @Provides
-    @Reusable
+    @Singleton
     @UnstableApi
     fun providePlayer(
         @ApplicationContext context: Context,
@@ -42,7 +43,7 @@ class SimpleMediaModule {
             .build()
 
     @Provides
-    @Reusable
+    @Singleton
     fun provideNotificationManager(
         @ApplicationContext context: Context,
         player: ExoPlayer
@@ -53,7 +54,7 @@ class SimpleMediaModule {
         )
 
     @Provides
-    @Reusable
+    @Singleton
     fun provideMediaSession(
         @ApplicationContext context: Context,
         player: ExoPlayer
@@ -61,7 +62,7 @@ class SimpleMediaModule {
         MediaSession.Builder(context, player).build()
 
     @Provides
-    @Reusable
+    @Singleton
     fun provideServiceHandler(
         player: ExoPlayer
     ): SimpleMediaServiceHandler =

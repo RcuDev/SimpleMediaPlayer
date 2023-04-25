@@ -34,7 +34,7 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.10.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.legacy:legacy-support-v4:1.0.0") // Needed MediaSessionCompat.Token
     implementation("com.google.android.material:material:1.8.0")
@@ -44,9 +44,9 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.45")
 
     // Media3
-    implementation("androidx.media3:media3-exoplayer:1.0.0")
-    implementation("androidx.media3:media3-ui:1.0.0")
-    implementation("androidx.media3:media3-session:1.0.0")
+    implementation("androidx.media3:media3-exoplayer:1.0.1")
+    implementation("androidx.media3:media3-ui:1.0.1")
+    implementation("androidx.media3:media3-session:1.0.1")
 
     // Glide
     implementation("com.github.bumptech.glide:glide:4.15.1")
